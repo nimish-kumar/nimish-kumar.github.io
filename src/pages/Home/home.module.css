@@ -20,10 +20,26 @@
 }
 .home .about {
   width: 50%;
-  height: 2rem;
+  height: auto;
   color: white;
   display: flex;
   flex-direction: column;
   font-size: 30px;
-  position: relative;
+}
+
+.home .about .heart {
+  animation: heartbeat 0.25s infinite alternate;
+  transform-origin: center;
+}
+
+.home .about .tag {
+  display: flex;
+  align-items: center;
+  font-size: large;
+}
+
+@keyframes heartbeat {
+  to {
+    transform: scale(1.2);
+  }
 }
