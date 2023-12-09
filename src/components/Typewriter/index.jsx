@@ -3,7 +3,7 @@ import styles from "./typewriter.module.css";
 
 export default function Typewriter({
   text,
-  infinite = true,
+  infinite = false,
   interval = 500,
   delay = 0,
   ...typewriterProps
