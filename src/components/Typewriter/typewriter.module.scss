@@ -1,0 +1,16 @@
+.blinkingCursor {
+  height: 100%;
+  border-left: 2rem solid white;
+  animation: blinking 0.5s infinite;
+  opacity: 1;
+}
+
+@keyframes blinking {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
