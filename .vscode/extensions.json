@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "visualstudioexptteam.vscodeintellicode",
+    "eamodio.gitlens",
+    "dbaeumer.vscode-eslint",
+    "pranaygp.vscode-css-peek",
+    "dsznajder.es7-react-js-snippets",
+    "clinyong.vscode-css-modules",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.auto-complete-tag",
+    "formulahendry.auto-close-tag"
+  ]
+}

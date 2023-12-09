@@ -1,0 +1,45 @@
+.home {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  width: 100%;
+  height: 100%;
+  padding: 10rem;
+}
+.home .divider {
+  height: 120%;
+  margin-left: 1rem;
+}
+.home .card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home .about {
+  width: 50%;
+  height: auto;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 28px;
+}
+
+.home .about .heart {
+  animation: heartbeat 0.25s infinite alternate;
+  transform-origin: center;
+}
+
+.home .about .tag {
+  display: flex;
+  align-items: center;
+  font-size: large;
+}
+
+@keyframes heartbeat {
+  to {
+    transform: scale(1.2);
+  }
+}

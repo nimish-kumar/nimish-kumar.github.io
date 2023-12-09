@@ -1,0 +1,105 @@
+/* 3d wrapper */
+.wrapper {
+  --rotateX: 20deg;
+  --rotateY: -20deg;
+  transform: perspective(1000px) rotateY(var(--rotateY)) rotateX(var(--rotateX));
+  transform-style: preserve-3d;
+  transition: 0.1s ease-in-out;
+}
+
+.card {
+  --card-size: 25rem;
+  border: 1px solid white;
+  height: 25rem;
+  width: calc(var(--card-size) * 1.75);
+  border-radius: 0.625rem;
+  position: relative;
+  pointer-events: none;
+}
+.card .socials {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 2rem;
+}
+.card .location {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  pointer-events: auto;
+}
+.location:hover {
+  scale: 1.1;
+}
+.card .socials .social {
+  text-decoration: none;
+  z-index: 3;
+  pointer-events: auto;
+}
+.social:hover {
+  scale: 1.2;
+}
+.card .cardContent {
+  color: white;
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.card .cardContent .fullName {
+  font-weight: 700;
+  text-shadow: 10px 10px 20px #000;
+  font-size: 50px;
+  letter-spacing: 5px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card .cardContent .designation {
+  margin-top: 3rem;
+  font-weight: 700;
+  text-shadow: 30px 30px 30px #000;
+  font-size: 20px;
+  letter-spacing: 5px;
+}
+.card .cardContent .skills {
+  padding: 0 2rem;
+  margin-top: 2rem;
+  font-weight: 900;
+  text-shadow: 10px 10px 20px #000;
+  font-size: 20px;
+  letter-spacing: 2px;
+  word-spacing: 20px;
+  text-align: center;
+}
+.card .bgImage {
+  background-image: url("@assets/colors.jpg");
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  border-radius: 0.625rem;
+  background-position: center;
+  background-size: cover;
+  filter: blur(10px);
+}
+.card .blurBgImage {
+  background-image: url("@assets/colors.jpg");
+  height: 100%;
+  width: 110%;
+  position: absolute;
+  z-index: 0;
+  left: -5%;
+  right: -5%;
+  border-radius: 0.625rem;
+  background-position: center;
+  filter: blur(100px);
+}
