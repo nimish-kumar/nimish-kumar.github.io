@@ -1,7 +1,8 @@
 import { Tooltip } from "antd";
+import { useRef } from "react";
 import { BiLogoGithub, BiLogoGmail, BiLogoLinkedin } from "react-icons/bi";
 import Typewriter from "../Typewriter";
-import styles from "./card.module.scss";
+import styles from "./card.module.css";
 
 const socials = [
   {
@@ -24,39 +25,70 @@ const socials = [
   },
 ];
 
-export default function Card() {
+export default function Card({ skew = true }) {
+  const cardRef = useRef(null);
+  const rotateCard = (event) => {
+    // get mouse position
+    const x = event?.clientX;
+    const y = event?.clientY;
+    // console.log("Mouse events  -> ", { x, y });
+
+    const middleX = cardRef.current.offsetWidth / 2;
+    const middleY = cardRef.current.offsetHeight / 2;
+
+    const offsetX =
+      ((x - (cardRef.current?.offsetLeft + middleX)) /
+        (cardRef.current?.offsetLeft + middleX)) *
+      45;
+    const offsetY =
+      ((y - (cardRef.current?.offsetTop + middleY)) /
+        (cardRef.current?.offsetTop + middleY)) *
+      45;
+    console.log("offset", { offsetX, offsetY });
+  };
+
   return (
-    <div className={styles.card}>
-      <span className={styles.cardContent}>
-        <Typewriter
-          text={"nimish kumar;"}
-          interval={200}
-          delay={2000}
-          className={styles.fullName}
-        />
-        <h3 className={styles.designation}>FullStack developer</h3>
-        <span className={styles.skills}>
-          #react #typescript #node #python #django #GCP #AWS
+    <div
+      className={skew ? styles.wrapper : ""}
+      onMouseMove={rotateCard}
+      ref={(node) => (cardRef.current = node)}
+    >
+      <div className={styles.card}>
+        <span className={styles.cardContent}>
+          <Typewriter
+            text={"nimish kumar;"}
+            interval={200}
+            delay={2000}
+            className={styles.fullName}
+          />
+          <h3 className={styles.designation}>FullStack developer</h3>
+          <span className={styles.skills}>
+            #react #typescript #node #python #django #GCP #AWS
+          </span>
+          <div className={styles.socials}>
+            {socials.map((social, index) => (
+              <Tooltip
+                key={index}
+                title={social.tooltipText}
+                placement="top"
+                arrow
+              >
+                <div className={styles.social}>
+                  <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {social.icon}
+                  </a>
+                </div>
+              </Tooltip>
+            ))}
+          </div>
         </span>
-        <div className={styles.socials}>
-          {socials.map((social, index) => (
-            <Tooltip
-              key={index}
-              title={social.tooltipText}
-              placement="top"
-              arrow
-            >
-              <div className={styles.social}>
-                <a href={social.url} target="_blank" rel="noopener noreferrer">
-                  {social.icon}
-                </a>
-              </div>
-            </Tooltip>
-          ))}
-        </div>
-      </span>
-      <div className={styles.blurBgImage} />
-      <div className={styles.bgImage} />
+        <div className={styles.bgImage} />
+        <div className={styles.blurBgImage} />
+      </div>
     </div>
   );
 }

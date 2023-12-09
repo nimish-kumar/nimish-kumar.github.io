@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./typewriter.module.scss";
+import styles from "./typewriter.module.css";
 export default function Typewriter({
   text,
   infinite = true,
