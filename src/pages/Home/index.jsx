@@ -7,9 +7,11 @@ export default function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.about}>
-        <span style={{ marginBottom: "4rem" }}>
-          Hi, I’m a software engineer specializing in building exceptional
-          digital experiences.
+        <span style={{ marginBottom: "4rem", fontWeight: 400 }}>
+          {`Hello there! I'm a`}&nbsp;
+          <strong style={{ fontWeight: 1000 }}>fullstack developer</strong> with
+          love and passion for crafting robust and innovative digital
+          experiences.
         </span>
         <span className={styles.tag}>
           <span>#&nbsp;</span>
