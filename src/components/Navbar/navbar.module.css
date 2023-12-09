@@ -1,0 +1,11 @@
+.downloadBtn {
+  color: white;
+  position: absolute;
+  margin: 3rem;
+  top: 0;
+  right: 0;
+}
+
+.navbar {
+  width: 100%;
+}

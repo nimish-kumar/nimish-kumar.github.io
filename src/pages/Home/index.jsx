@@ -8,7 +8,8 @@ export default function Home() {
     <div className={styles.home}>
       <div className={styles.about}>
         <span style={{ marginBottom: "4rem" }}>
-          Hi, I am fullstack developer.
+          Hi, I’m a software engineer specializing in building exceptional
+          digital experiences.
         </span>
         <span className={styles.tag}>
           <span>#&nbsp;</span>
