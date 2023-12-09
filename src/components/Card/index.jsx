@@ -31,26 +31,32 @@ export default function Card({ skew = true }) {
     // get mouse position
     const x = event?.clientX;
     const y = event?.clientY;
-    // console.log("Mouse events  -> ", { x, y });
 
-    const middleX = cardRef.current.offsetWidth / 2;
-    const middleY = cardRef.current.offsetHeight / 2;
+    const element = cardRef.current;
+    const middleX = element.offsetWidth / 2;
+    const middleY = element.offsetHeight / 2;
 
     const offsetX =
-      ((x - (cardRef.current?.offsetLeft + middleX)) /
-        (cardRef.current?.offsetLeft + middleX)) *
+      ((x - (element?.offsetLeft + middleX)) /
+        (element?.offsetLeft + middleX)) *
       45;
     const offsetY =
-      ((y - (cardRef.current?.offsetTop + middleY)) /
-        (cardRef.current?.offsetTop + middleY)) *
+      ((y - (element?.offsetTop + middleY)) / (element?.offsetTop + middleY)) *
       45;
-    console.log("offset", { offsetX, offsetY });
+    element.style.setProperty("--rotateX", `${offsetY}deg`);
+    element.style.setProperty("--rotateY", `${-1 * offsetX}deg`);
+  };
+  const resetRotate = () => {
+    const element = cardRef.current;
+    element.style.setProperty("--rotateX", "20deg");
+    element.style.setProperty("--rotateY", "-20deg");
   };
 
   return (
     <div
       className={skew ? styles.wrapper : ""}
       onMouseMove={rotateCard}
+      onMouseLeave={resetRotate}
       ref={(node) => (cardRef.current = node)}
     >
       <div className={styles.card}>
@@ -70,7 +76,7 @@ export default function Card({ skew = true }) {
               <Tooltip
                 key={index}
                 title={social.tooltipText}
-                placement="top"
+                placement="bottom"
                 arrow
               >
                 <div className={styles.social}>
