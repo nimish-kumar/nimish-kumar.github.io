@@ -16,13 +16,13 @@ const socials = [
     name: "Github",
     url: "https://github.com/nimish-kumar",
     icon: <BiLogoGithub size="2rem" color="white" />,
-    tooltipText: "/nimish-kumar",
+    tooltipText: "github.com/nimish-kumar",
   },
   {
     name: "LinkedIn",
     url: "https://www.linkedin.com/in/nimishk642",
     icon: <BiLogoLinkedin size="2rem" color="white" />,
-    tooltipText: "/nimishk642",
+    tooltipText: "linkedin.com/in/nimishk642",
   },
 ];
 
