@@ -1,5 +1,7 @@
 /* 3d wrapper */
 .wrapper {
+  --rotateX: 20deg;
+  --rotateY: -20deg;
   transform: perspective(1000px) rotateY(var(--rotateY)) rotateX(var(--rotateX));
   transform-style: preserve-3d;
   transition: 0.1s ease-in-out;

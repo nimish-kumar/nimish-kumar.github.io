@@ -1,6 +1,7 @@
 import { Tooltip } from "antd";
 import { useRef } from "react";
 import { BiLogoGithub, BiLogoGmail, BiLogoLinkedin } from "react-icons/bi";
+import { BsTwitterX } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
 import Typewriter from "../Typewriter";
 import styles from "./card.module.css";
@@ -23,6 +24,12 @@ const socials = [
     url: "https://www.linkedin.com/in/nimishk642",
     icon: <BiLogoLinkedin size="2rem" color="white" />,
     tooltipText: "linkedin.com/in/nimishk642",
+  },
+  {
+    name: "X",
+    url: "https://twitter.com/nimish7",
+    icon: <BsTwitterX size="2rem" color="white" />,
+    tooltipText: "twitter.com/nimish7",
   },
 ];
 
