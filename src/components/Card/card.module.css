@@ -8,10 +8,10 @@
 }
 
 .card {
-  --card-size: 25rem;
+  --card-size: 50vw;
   border: 1px solid white;
-  height: 25rem;
-  width: calc(var(--card-size) * 1.75);
+  aspect-ratio: 1.75;
+  width: var(--card-size);
   border-radius: 0.625rem;
   position: relative;
   pointer-events: none;
