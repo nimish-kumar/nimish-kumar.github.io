@@ -2,9 +2,15 @@
 .wrapper {
   --rotateX: 20deg;
   --rotateY: -20deg;
+  --rotateDirection: 1;
   transform: perspective(1000px) rotateY(var(--rotateY)) rotateX(var(--rotateX));
   transform-style: preserve-3d;
-  transition: 0.1s ease-in-out;
+  transition: transform 0.6s ease-in-out;
+}
+
+.wrapper.flipped {
+  transform: perspective(1000px) rotateY(calc(var(--rotateDirection) * 180deg))
+    rotateX(0deg) rotateZ(0deg);
 }
 
 .card {
@@ -14,7 +20,9 @@
   width: calc(var(--card-size) * 1.75);
   border-radius: 0.625rem;
   position: relative;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
+  transform-style: preserve-3d;
 }
 .card .socials {
   display: flex;
@@ -52,6 +60,23 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  backface-visibility: hidden;
+}
+
+.cardBack {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0.625rem;
 }
 .card .cardContent .fullName {
   font-weight: 700;
@@ -102,4 +127,19 @@
   border-radius: 0.625rem;
   background-position: center;
   filter: blur(100px);
+}
+
+.cardBack .url {
+  color: white;
+  text-decoration: none;
+  font-size: larger;
+  letter-spacing: 2px;
+  font-weight: 900;
+  text-shadow: 10px 10px 20px #000;
+}
+
+.url:hover,
+.url:focus,
+.url:active {
+  text-decoration: none;
 }

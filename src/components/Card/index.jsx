@@ -1,5 +1,5 @@
-import { Tooltip } from "antd";
-import { useRef } from "react";
+import { QRCode, Tooltip } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { BiLogoGithub, BiLogoGmail, BiLogoLinkedin } from "react-icons/bi";
 import { BsTwitterX } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
@@ -35,8 +35,43 @@ const socials = [
 
 export default function Card({ skew = true }) {
   const cardRef = useRef(null);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const autoFlipTimeoutRef = useRef(null);
+
+  // Auto-flip back to front after 5 seconds when showing the back and not hovered
+  useEffect(() => {
+    if (isFlipped && !isHovered) {
+      // Clear any existing timeout
+      if (autoFlipTimeoutRef.current) {
+        clearTimeout(autoFlipTimeoutRef.current);
+      }
+
+      // Set new timeout for 5 seconds
+      autoFlipTimeoutRef.current = setTimeout(() => {
+        setIsFlipped(false);
+      }, 1000);
+    } else {
+      // Clear timeout when flipped back to front or hovered
+      if (autoFlipTimeoutRef.current) {
+        clearTimeout(autoFlipTimeoutRef.current);
+        autoFlipTimeoutRef.current = null;
+      }
+    }
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (autoFlipTimeoutRef.current) {
+        clearTimeout(autoFlipTimeoutRef.current);
+      }
+    };
+  }, [isFlipped, isHovered]);
+
   const rotateCard = (event) => {
-    // get mouse position
+    // Prevent 3D rotation effect when card is flipped
+    if (isFlipped) return;
+
+    // Get mouse position
     const x = event?.clientX;
     const y = event?.clientY;
 
@@ -51,23 +86,71 @@ export default function Card({ skew = true }) {
     const offsetY =
       ((y - (element?.offsetTop + middleY)) / (element?.offsetTop + middleY)) *
       45;
+
+    // Set faster transition for 3D rotation effect
+    element.style.transition = "transform 0.1s ease-in-out";
     element.style.setProperty("--rotateX", `${-1 * offsetY}deg`);
     element.style.setProperty("--rotateY", `${offsetX}deg`);
   };
+
   const resetRotate = () => {
+    // Prevent 3D rotation effect when card is flipped
+    if (isFlipped) return;
+
     const element = cardRef.current;
+    // Set faster transition for 3D rotation effect
+    element.style.transition = "transform 0.1s ease-in-out";
     element.style.setProperty("--rotateX", "20deg");
     element.style.setProperty("--rotateY", "-20deg");
   };
 
+  const handleCardClick = (event) => {
+    const element = cardRef.current;
+    // Reset to flip transition speed
+    element.style.transition = "transform 0.6s ease-in-out";
+
+    // Get click position relative to card
+    const rect = element.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const cardWidth = element.offsetWidth;
+
+    // Determine rotation direction based on click position
+    // If clicked in the 70% right portion, rotate from left to right, otherwise right to left
+    const threshold = cardWidth * 0.5;
+
+    if (clickX > threshold) {
+      // Clicked on right 30% - rotate from left to right
+      element.style.setProperty("--rotateDirection", "1");
+    } else {
+      // Clicked elsewhere - rotate from right to left
+      element.style.setProperty("--rotateDirection", "-1");
+    }
+
+    setIsFlipped(!isFlipped);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div
-      className={skew ? styles.wrapper : ""}
+      className={`${skew ? styles.wrapper : ""} ${
+        isFlipped ? styles.flipped : ""
+      }`}
       onMouseMove={rotateCard}
-      onMouseLeave={resetRotate}
+      onMouseLeave={(e) => {
+        resetRotate(e);
+        handleMouseLeave();
+      }}
+      onMouseEnter={handleMouseEnter}
       ref={(node) => (cardRef.current = node)}
     >
-      <div className={styles.card}>
+      <div className={styles.card} onClick={(e) => handleCardClick(e)}>
         <span className={styles.cardContent}>
           <Typewriter
             text={"nimish kumar;"}
@@ -81,6 +164,7 @@ export default function Card({ skew = true }) {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.location}
+            onClick={(e) => e.stopPropagation()}
           >
             <FaLocationDot color="white" size={"2rem"} />
             <span
@@ -113,6 +197,7 @@ export default function Card({ skew = true }) {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {social.icon}
                   </a>
@@ -121,6 +206,18 @@ export default function Card({ skew = true }) {
             ))}
           </div>
         </span>
+        <div className={styles.cardBack}>
+          <QRCode value={socials[2].url} size={200} color="white" />
+          <a
+            href={socials[2].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className={styles.url}
+          >
+            {socials[2].tooltipText}
+          </a>
+        </div>
         <div className={styles.bgImage} />
         <div className={styles.blurBgImage} />
       </div>
