@@ -49,6 +49,14 @@ export default function Card({ skew = true }) {
 
       // Set new timeout for 5 seconds
       autoFlipTimeoutRef.current = setTimeout(() => {
+        const element = cardRef.current;
+        if (element) {
+          // Restore original tilted position after auto-flip
+          setTimeout(() => {
+            element.style.setProperty("--rotateX", "20deg");
+            element.style.setProperty("--rotateY", "-20deg");
+          }, 300);
+        }
         setIsFlipped(false);
       }, 1000);
     } else {
@@ -109,21 +117,29 @@ export default function Card({ skew = true }) {
     // Reset to flip transition speed
     element.style.transition = "transform 0.6s ease-in-out";
 
-    // Get click position relative to card
-    const rect = element.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const cardWidth = element.offsetWidth;
+    if (!isFlipped) {
+      // Flipping to back - determine rotation direction based on click position
+      const rect = element.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const cardWidth = element.offsetWidth;
 
-    // Determine rotation direction based on click position
-    // If clicked in the 70% right portion, rotate from left to right, otherwise right to left
-    const threshold = cardWidth * 0.5;
+      // Determine rotation direction based on click position
+      // If clicked in the right 50% portion, rotate from left to right, otherwise right to left
+      const threshold = cardWidth * 0.5;
 
-    if (clickX > threshold) {
-      // Clicked on right 30% - rotate from left to right
-      element.style.setProperty("--rotateDirection", "1");
+      if (clickX > threshold) {
+        // Clicked on right 50% - rotate from left to right
+        element.style.setProperty("--rotateDirection", "1");
+      } else {
+        // Clicked elsewhere - rotate from right to left
+        element.style.setProperty("--rotateDirection", "-1");
+      }
     } else {
-      // Clicked elsewhere - rotate from right to left
-      element.style.setProperty("--rotateDirection", "-1");
+      // Flipping back to front - restore original tilted position
+      setTimeout(() => {
+        element.style.setProperty("--rotateX", "20deg");
+        element.style.setProperty("--rotateY", "-20deg");
+      }, 300); // Wait for flip animation to be halfway through
     }
 
     setIsFlipped(!isFlipped);
@@ -207,7 +223,6 @@ export default function Card({ skew = true }) {
           </div>
         </span>
         <div className={styles.cardBack}>
-          <QRCode value={socials[2].url} size={200} color="white" />
           <a
             href={socials[2].url}
             target="_blank"
@@ -215,7 +230,7 @@ export default function Card({ skew = true }) {
             onClick={(e) => e.stopPropagation()}
             className={styles.url}
           >
-            {socials[2].tooltipText}
+            <QRCode value={socials[2].url} size={200} color="white" />
           </a>
         </div>
         <div className={styles.bgImage} />
