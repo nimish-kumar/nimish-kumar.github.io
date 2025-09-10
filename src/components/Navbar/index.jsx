@@ -7,7 +7,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <a
         href={
-          "https://drive.google.com/file/d/125jaod-oxDdR8-3VlDECTuffHDmkHGMx/view"
+          "https://drive.google.com/file/d/1psr7xWQXsFkmZW_P_Rmu7lwwiPVkzfiw/view?usp=sharing"
         }
         download="NIMISH_KUMAR_4YOE_FRONTEND.pdf"
         target="_blank"
