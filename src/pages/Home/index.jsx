@@ -1,12 +1,15 @@
-import { Card } from "@components";
+import { Card, Navbar } from "@components";
 import { FaHeart } from "react-icons/fa";
 import { MdOutlineWork } from "react-icons/md";
 import styles from "./home.module.css";
 
-export default function Home() {
+function Home() {
   return (
-    <div className={styles.home}>
-      <div className={styles.about}>
+    <div className={styles.grid}>
+      <div className={styles.header}>
+        <Navbar />
+      </div>
+      <div className={styles.left}>
         <span style={{ marginBottom: "4rem", fontWeight: 400 }}>
           {`Hello there! I'm a`}&nbsp;
           <strong style={{ fontWeight: 1000 }}>fullstack developer</strong> with
@@ -24,9 +27,11 @@ export default function Home() {
           <MdOutlineWork color="white" size="2rem" />
         </span>
       </div>
-      <div className={styles.card}>
+      <div className={`${styles.right} ${styles.cardContainer}`}>
         <Card />
       </div>
     </div>
   );
 }
+
+export default Home;
