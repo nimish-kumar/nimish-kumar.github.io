@@ -123,7 +123,38 @@ export default function Card({ skew = true }) {
     element.style.setProperty("--rotateY", "-20deg");
   };
 
+  const createRippleEffect = (event) => {
+    // Get the exact cursor position when clicked
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Create ripple element
+    const ripple = document.createElement("div");
+    ripple.className = styles.ripple;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+
+    // Create the wave element
+    const wave = document.createElement("div");
+    wave.className = styles.rippleWave;
+
+    ripple.appendChild(wave);
+    document.body.appendChild(ripple);
+
+    // Remove ripple after animation completes
+    setTimeout(() => {
+      if (ripple.parentNode) {
+        ripple.parentNode.removeChild(ripple);
+      }
+    }, 800);
+  };
+
   const handleCardClick = (event) => {
+    // Only create ripple effect when card is hovered (white cursor is visible)
+    if (isHovered) {
+      createRippleEffect(event);
+    }
+
     const element = cardRef.current;
     // Reset to flip transition speed
     element.style.transition = "transform 0.6s ease-in-out";
