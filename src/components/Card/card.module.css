@@ -505,34 +505,10 @@
   filter: blur(100px);
 }
 
-.cardBack .url {
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  font-weight: 900;
-  text-shadow: 10px 10px 20px #000;
-}
-
-/* QR Code responsive sizing - use CSS to scale the canvas */
-.cardBack .url :global(canvas) {
-  width: min(30vw, 120px) !important;
-  height: min(30vw, 120px) !important;
-  max-width: 120px !important;
-  max-height: 120px !important;
-}
-
 /* Very small mobile devices */
 @media (max-width: 320px) {
   .cardBack .url {
     font-size: 0.7rem;
-  }
-
-  .cardBack .url :global(canvas) {
-    width: min(25vw, 100px) !important;
-    height: min(25vw, 100px) !important;
-    max-width: 100px !important;
-    max-height: 100px !important;
   }
 }
 
@@ -540,23 +516,6 @@
 @media (min-width: 321px) and (max-width: 480px) {
   .cardBack .url {
     font-size: 0.8rem;
-  }
-
-  .cardBack .url :global(canvas) {
-    width: min(28vw, 110px) !important;
-    height: min(28vw, 110px) !important;
-    max-width: 110px !important;
-    max-height: 110px !important;
-  }
-}
-
-/* Medium mobile devices */
-@media (min-width: 481px) and (max-width: 767px) {
-  .cardBack .url :global(canvas) {
-    width: min(25vw, 130px) !important;
-    height: min(25vw, 130px) !important;
-    max-width: 130px !important;
-    max-height: 130px !important;
   }
 }
 
@@ -580,13 +539,6 @@
   .cardBack .url {
     font-size: larger;
     letter-spacing: 2px;
-  }
-
-  .cardBack .url :global(canvas) {
-    width: min(15vw, 200px) !important;
-    height: min(15vw, 200px) !important;
-    max-width: 200px !important;
-    max-height: 200px !important;
   }
 }
 

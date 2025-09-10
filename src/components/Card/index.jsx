@@ -290,7 +290,6 @@ export default function Card({ skew = true }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className={styles.url}
             >
               <QRCode value={socials[2].url} color="white" />
             </a>
