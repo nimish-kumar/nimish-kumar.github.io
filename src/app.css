@@ -9,12 +9,3 @@
   background-color: black;
   min-height: 100svh;
 }
-
-.home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* temporary */
-  height: 100svh;
-}

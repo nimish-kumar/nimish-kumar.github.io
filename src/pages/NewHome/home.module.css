@@ -1,0 +1,40 @@
+.grid {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "left right";
+  border: 1px solid white;
+}
+
+.header {
+  grid-area: header;
+  border: 1px solid white;
+  height: 4rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 1rem;
+}
+
+.left {
+  grid-area: left;
+  border: 1px solid white;
+  min-height: 100svh;
+  width: 50svw;
+}
+
+.right {
+  grid-area: right;
+  border: 1px solid white;
+  min-height: 100svh;
+  width: 50svw;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

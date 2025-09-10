@@ -37,6 +37,7 @@ export default function Card({ skew = true }) {
   const cardRef = useRef(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [textTransition, setTextTransition] = useState(false);
   const autoFlipTimeoutRef = useRef(null);
 
   // Auto-flip back to front after 5 seconds when showing the back and not hovered
@@ -74,6 +75,16 @@ export default function Card({ skew = true }) {
       }
     };
   }, [isFlipped, isHovered]);
+
+  // Handle text transition effect
+  useEffect(() => {
+    setTextTransition(true);
+    const timer = setTimeout(() => {
+      setTextTransition(false);
+    }, 150); // Half of the total transition time
+
+    return () => clearTimeout(timer);
+  }, [isFlipped]);
 
   const rotateCard = (event) => {
     // Prevent 3D rotation effect when card is flipped
@@ -154,88 +165,108 @@ export default function Card({ skew = true }) {
   };
 
   return (
-    <div
-      className={`${skew ? styles.wrapper : ""} ${
-        isFlipped ? styles.flipped : ""
-      }`}
-      onMouseMove={rotateCard}
-      onMouseLeave={(e) => {
-        resetRotate(e);
-        handleMouseLeave();
-      }}
-      onMouseEnter={handleMouseEnter}
-      ref={(node) => (cardRef.current = node)}
-    >
-      <div className={styles.card} onClick={(e) => handleCardClick(e)}>
-        <span className={styles.cardContent}>
-          <Typewriter
-            text={"nimish kumar;"}
-            interval={200}
-            delay={2000}
-            className={styles.fullName}
-            infinite
-          />
-          <a
-            href="https://www.google.com/maps/dir//Pune,+Maharashtra/@18.524545,73.6981553,11z/data=!4m9!4m8!1m0!1m5!1m1!1s0x3bc2bf2e67461101:0x828d43bf9d9ee343!2m2!1d73.8567437!2d18.5204303!3e0?entry=ttu"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.location}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <FaLocationDot color="white" size={"2rem"} />
-            <span
-              style={{
-                fontSize: "1.5rem",
-                marginLeft: "1rem",
-                textShadow: "0px 0px 5px #000",
-                fontWeight: 700,
-                textDecoration: "none",
-                color: "white",
-              }}
+    <div className={styles.container}>
+      <div
+        className={`${skew ? styles.wrapper : ""} ${
+          isFlipped ? styles.flipped : ""
+        }`}
+        onMouseMove={rotateCard}
+        onMouseLeave={(e) => {
+          resetRotate(e);
+          handleMouseLeave();
+        }}
+        onMouseEnter={handleMouseEnter}
+        ref={(node) => (cardRef.current = node)}
+      >
+        <div className={styles.card} onClick={(e) => handleCardClick(e)}>
+          <span className={styles.cardContent}>
+            <Typewriter
+              text={"nimish kumar;"}
+              interval={200}
+              delay={2000}
+              className={styles.fullName}
+              infinite
+            />
+            <a
+              href="https://www.google.com/maps/dir//Pune,+Maharashtra/@18.524545,73.6981553,11z/data=!4m9!4m8!1m0!1m5!1m1!1s0x3bc2bf2e67461101:0x828d43bf9d9ee343!2m2!1d73.8567437!2d18.5204303!3e0?entry=ttu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.location}
+              onClick={(e) => e.stopPropagation()}
             >
-              Pune, India
-            </span>
-          </a>
-          <h3 className={styles.designation}>FullStack developer</h3>
-          <span className={styles.skills}>
-            #react #typescript #node #python #django #graphql #GCP #AWS
-          </span>
-          <div className={styles.socials}>
-            {socials.map((social, index) => (
-              <Tooltip
-                key={index}
-                title={social.tooltipText}
-                placement="bottom"
-                arrow
+              <FaLocationDot color="white" size={"2rem"} />
+              <span
+                style={{
+                  fontSize: "1.5rem",
+                  marginLeft: "1rem",
+                  textShadow: "0px 0px 5px #000",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  color: "white",
+                }}
               >
-                <div className={styles.social}>
-                  <a
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {social.icon}
-                  </a>
-                </div>
-              </Tooltip>
-            ))}
+                Pune, India
+              </span>
+            </a>
+            <h3 className={styles.designation}>FullStack developer</h3>
+            <span className={styles.skills}>
+              #react #typescript #node #python #django #graphql #aws
+            </span>
+            <div className={styles.socials}>
+              {socials.map((social, index) => (
+                <Tooltip
+                  key={index}
+                  title={social.tooltipText}
+                  placement="bottom"
+                  arrow
+                >
+                  <div className={styles.social}>
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {social.icon}
+                    </a>
+                  </div>
+                </Tooltip>
+              ))}
+            </div>
+          </span>
+          <div className={styles.cardBack}>
+            <a
+              href={socials[2].url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className={styles.url}
+            >
+              <QRCode value={socials[2].url} size={200} color="white" />
+            </a>
           </div>
-        </span>
-        <div className={styles.cardBack}>
-          <a
-            href={socials[2].url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className={styles.url}
-          >
-            <QRCode value={socials[2].url} size={200} color="white" />
-          </a>
+          <div className={styles.bgImage} />
+          <div className={styles.blurBgImage} />
         </div>
-        <div className={styles.bgImage} />
-        <div className={styles.blurBgImage} />
       </div>
+      {!isFlipped && (
+        <span
+          className={`${styles.tapFont} ${
+            textTransition ? styles.textTransition : ""
+          }`}
+        >
+          TAP TO ROTATE
+        </span>
+      )}
+      {isFlipped && (
+        <span
+          className={`${styles.scanFont} ${
+            textTransition ? styles.textTransition : ""
+          }`}
+        >
+          CLICK OR SCAN
+        </span>
+      )}
     </div>
   );
 }
