@@ -1,8 +1,12 @@
+/* Mobile-first approach */
 .grid {
   display: grid;
   grid-template-areas:
-    "header header"
-    "left right";
+    "header"
+    "left"
+    "right";
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
 }
 
 .header {
@@ -14,24 +18,91 @@
   right: 0;
   z-index: 10;
   padding: 1rem;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .left {
   grid-area: left;
-  min-height: 100svh;
+  min-height: 50vh;
   color: white;
   display: flex;
   flex-direction: column;
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   justify-content: center;
-  align-items: start;
-  padding: 6rem;
+  align-items: center;
+  padding: 2rem 1rem;
+  margin-top: 4rem;
+  text-align: center;
 }
 
 .right {
   grid-area: right;
-  min-height: 100svh;
-  width: 60svw;
+  min-height: 50vh;
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
+/* Very small mobile devices */
+@media (max-width: 320px) {
+  .left {
+    font-size: 1rem;
+    padding: 1.5rem 0.75rem;
+  }
+
+  .right {
+    padding: 1.5rem 0.75rem;
+  }
+}
+
+/* Small mobile devices */
+@media (min-width: 321px) and (max-width: 480px) {
+  .left {
+    font-size: 1.1rem;
+    padding: 1.75rem 0.875rem;
+  }
+
+  .right {
+    padding: 1.75rem 0.875rem;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-areas:
+      "header header"
+      "left right";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .left {
+    min-height: 100vh;
+    font-size: 1.5rem;
+    align-items: flex-start;
+    padding: 4rem 2rem;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  .right {
+    min-height: 100vh;
+    width: auto;
+    padding: 4rem 2rem;
+  }
+}
+
+/* Large desktop styles */
+@media (min-width: 1440px) {
+  .left {
+    padding: 8rem;
+    font-size: 2rem;
+  }
+
+  .right {
+    padding: 8rem;
+  }
 }
 
 .cardContainer {
@@ -39,6 +110,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding: 1rem;
 }
 
 .heart {
@@ -48,12 +120,36 @@
 
 .tag {
   display: flex;
+  justify-content: center;
   align-items: center;
-  font-size: large;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Tablet and desktop tag styles */
+@media (min-width: 768px) {
+  .tag {
+    font-size: large;
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
 }
 
 @keyframes heartbeat {
   to {
     transform: scale(1.2);
+  }
+}
+
+/* Mobile-specific styles for text content */
+@media (max-width: 767px) {
+  .left span:first-child {
+    /* margin-bottom: 2rem !important; */
+    line-height: 1.4;
+  }
+
+  .tag {
+    font-size: 1rem;
   }
 }

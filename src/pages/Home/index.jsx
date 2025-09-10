@@ -17,13 +17,12 @@ function Home() {
           experiences.
         </span>
         <span className={styles.tag}>
-          <span>#&nbsp;</span>
+          #&nbsp;
           <FaHeart color="red" size="2rem" className={styles.heart} />
-          <span>&nbsp;to build</span>
+          &nbsp;to build
         </span>
         <span className={styles.tag}>
-          <span>#&nbsp;Open</span>
-          <span>&nbsp;to work</span>
+          #&nbsp;Open to work
           <MdOutlineWork color="white" size="2rem" />
         </span>
       </div>

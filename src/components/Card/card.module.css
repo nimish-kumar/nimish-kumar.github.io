@@ -1,7 +1,7 @@
-/* 3d wrapper */
+/* 3d wrapper - disabled on mobile */
 .wrapper {
-  --rotateX: 20deg;
-  --rotateY: -20deg;
+  --rotateX: 0deg; /* No tilt on mobile by default */
+  --rotateY: 0deg;
   --rotateDirection: 1;
   perspective: 1000px;
   perspective-origin: center;
@@ -19,15 +19,84 @@
     rotateZ(0deg);
 }
 
+/* Enable 3D tilt effect only on desktop (non-touch devices) */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .wrapper {
+    --rotateX: 20deg;
+    --rotateY: -20deg;
+  }
+}
+
 .card {
-  --card-size: 25rem;
+  --card-size: 16rem; /* Mobile default - smaller for very small screens */
   border: 1px solid white;
   height: var(--card-size);
-  width: calc(var(--card-size) * 1.75);
+  width: calc(var(--card-size) * 1.6); /* Better aspect ratio for mobile */
   border-radius: 0.625rem;
   position: relative;
   pointer-events: auto;
   cursor: pointer;
+  max-width: 90vw; /* Prevent overflow on small screens */
+  min-width: 280px; /* Minimum usable size */
+  aspect-ratio: 1.6 / 1; /* Maintain consistent aspect ratio */
+}
+
+/* Very small mobile devices */
+@media (max-width: 320px) {
+  .card {
+    --card-size: 14rem;
+    max-width: 95vw;
+    width: calc(
+      var(--card-size) * 1.7
+    ); /* Slightly more square on very small screens */
+    aspect-ratio: 1.7 / 1;
+  }
+}
+
+/* Small mobile devices */
+@media (min-width: 321px) and (max-width: 480px) {
+  .card {
+    --card-size: 16rem;
+    width: calc(var(--card-size) * 1.6);
+    aspect-ratio: 1.6 / 1;
+  }
+}
+
+/* Medium mobile devices */
+@media (min-width: 481px) and (max-width: 767px) {
+  .card {
+    --card-size: 18rem;
+    width: calc(var(--card-size) * 1.65);
+    aspect-ratio: 1.65 / 1;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .card {
+    --card-size: 22rem;
+    width: calc(var(--card-size) * 1.7);
+    aspect-ratio: 1.7 / 1;
+  }
+}
+
+/* Large desktop styles */
+@media (min-width: 1440px) {
+  .card {
+    --card-size: 28rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .card:hover {
+    cursor: pointer;
+  }
+
+  .location:hover,
+  .social:hover {
+    scale: 1.05; /* Reduce scale on touch devices */
+  }
 }
 
 .card:hover {
@@ -82,16 +151,137 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 2rem;
-  gap: 2rem;
+  margin-top: 0.75rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
+
 .card .location {
-  margin-top: 1rem;
+  margin-top: 0.25rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   text-decoration: none;
   pointer-events: auto;
+  justify-content: center;
+}
+
+.card .location span {
+  font-size: 0.75rem !important;
+  margin-left: 0.25rem !important;
+  text-shadow: 0px 0px 5px #000 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  color: white !important;
+}
+
+/* Adjust icon sizes for mobile */
+.card .socials svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.card .location svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Very small mobile devices */
+@media (max-width: 320px) {
+  .card .socials {
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .card .socials svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .card .location svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .card .location span {
+    font-size: 0.6rem !important;
+    margin-left: 0.2rem !important;
+  }
+}
+
+/* Small mobile devices */
+@media (min-width: 321px) and (max-width: 480px) {
+  .card .location span {
+    font-size: 0.7rem !important;
+    margin-left: 0.3rem !important;
+  }
+}
+
+/* Medium mobile devices */
+@media (min-width: 481px) and (max-width: 767px) {
+  .card .socials {
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .card .socials svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .card .location svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .card .location span {
+    font-size: 0.9rem !important;
+    margin-left: 0.4rem !important;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .card .socials {
+    margin-top: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .card .socials svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .card .location svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .card .location {
+    margin-top: 0.75rem;
+  }
+
+  .card .location span {
+    font-size: 1.2rem !important;
+    margin-left: 0.75rem !important;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .card .socials {
+    margin-top: 2rem;
+    gap: 2rem;
+  }
+
+  .card .location {
+    margin-top: 1rem;
+  }
+
+  .card .location span {
+    font-size: 1.5rem !important;
+    margin-left: 1rem !important;
+  }
 }
 .location:hover {
   scale: 1.1;
@@ -135,29 +325,161 @@
 .card .cardContent .fullName {
   font-weight: 700;
   text-shadow: 10px 10px 20px #000;
-  font-size: 50px;
-  letter-spacing: 5px;
+  font-size: 1.5rem; /* Mobile default - smaller for small screens */
+  letter-spacing: 1px;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  line-height: 1.2;
 }
+
 .card .cardContent .designation {
-  margin-top: 3rem;
+  margin-top: 1rem;
   font-weight: 700;
   text-shadow: 30px 30px 30px #000;
-  font-size: 20px;
-  letter-spacing: 5px;
+  font-size: 0.7rem; /* Mobile default */
+  letter-spacing: 1px;
+  text-align: center;
 }
+
 .card .cardContent .skills {
-  padding: 0 2rem;
-  margin-top: 2rem;
+  padding: 0 0.5rem;
+  margin-top: 0.75rem;
   font-weight: 900;
   text-shadow: 10px 10px 20px #000;
-  font-size: 20px;
-  letter-spacing: 2px;
-  word-spacing: 20px;
+  font-size: 0.6rem; /* Mobile default */
+  letter-spacing: 0.5px;
+  word-spacing: 5px;
   text-align: center;
+  line-height: 1.3;
+}
+
+/* Very small mobile devices */
+@media (max-width: 320px) {
+  .card .cardContent .fullName {
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+  }
+
+  .card .cardContent .designation {
+    font-size: 0.6rem;
+    margin-top: 0.75rem;
+  }
+
+  .card .cardContent .skills {
+    font-size: 0.5rem;
+    padding: 0 0.25rem;
+    margin-top: 0.5rem;
+    word-spacing: 3px;
+  }
+}
+
+/* Small mobile devices */
+@media (min-width: 321px) and (max-width: 480px) {
+  .card .cardContent .fullName {
+    font-size: 1.4rem;
+    letter-spacing: 0.75px;
+  }
+
+  .card .cardContent .designation {
+    font-size: 0.65rem;
+    margin-top: 0.875rem;
+  }
+
+  .card .cardContent .skills {
+    font-size: 0.55rem;
+    padding: 0 0.375rem;
+    margin-top: 0.625rem;
+    word-spacing: 4px;
+  }
+}
+
+/* Medium mobile devices */
+@media (min-width: 481px) and (max-width: 767px) {
+  .card .cardContent .fullName {
+    font-size: 1.75rem;
+    letter-spacing: 1.5px;
+  }
+
+  .card .cardContent .designation {
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    margin-top: 1.25rem;
+  }
+
+  .card .cardContent .skills {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    word-spacing: 8px;
+    margin-top: 1rem;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .card .cardContent .fullName {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+  }
+
+  .card .cardContent .designation {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+  }
+
+  .card .cardContent .skills {
+    padding: 0 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    word-spacing: 15px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .card .cardContent .fullName {
+    font-size: 3rem;
+    letter-spacing: 4px;
+  }
+
+  .card .cardContent .designation {
+    margin-top: 2.5rem;
+    font-size: 1.25rem;
+    letter-spacing: 4px;
+  }
+
+  .card .cardContent .skills {
+    padding: 0 2rem;
+    margin-top: 2rem;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    word-spacing: 20px;
+  }
+}
+
+/* Large desktop styles */
+@media (min-width: 1440px) {
+  .card .cardContent .fullName {
+    font-size: 3.125rem; /* 50px */
+    letter-spacing: 5px;
+  }
+
+  .card .cardContent .designation {
+    margin-top: 3rem;
+    font-size: 1.25rem; /* 20px */
+    letter-spacing: 5px;
+  }
+
+  .card .cardContent .skills {
+    margin-top: 2rem;
+    font-size: 1.25rem; /* 20px */
+    letter-spacing: 2px;
+    word-spacing: 20px;
+  }
 }
 .card .bgImage {
   background-image: url("@assets/colors.jpg");
@@ -186,10 +508,86 @@
 .cardBack .url {
   color: white;
   text-decoration: none;
-  font-size: larger;
-  letter-spacing: 2px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
   font-weight: 900;
   text-shadow: 10px 10px 20px #000;
+}
+
+/* QR Code responsive sizing - use CSS to scale the canvas */
+.cardBack .url :global(canvas) {
+  width: min(30vw, 120px) !important;
+  height: min(30vw, 120px) !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+}
+
+/* Very small mobile devices */
+@media (max-width: 320px) {
+  .cardBack .url {
+    font-size: 0.7rem;
+  }
+
+  .cardBack .url :global(canvas) {
+    width: min(25vw, 100px) !important;
+    height: min(25vw, 100px) !important;
+    max-width: 100px !important;
+    max-height: 100px !important;
+  }
+}
+
+/* Small mobile devices */
+@media (min-width: 321px) and (max-width: 480px) {
+  .cardBack .url {
+    font-size: 0.8rem;
+  }
+
+  .cardBack .url :global(canvas) {
+    width: min(28vw, 110px) !important;
+    height: min(28vw, 110px) !important;
+    max-width: 110px !important;
+    max-height: 110px !important;
+  }
+}
+
+/* Medium mobile devices */
+@media (min-width: 481px) and (max-width: 767px) {
+  .cardBack .url :global(canvas) {
+    width: min(25vw, 130px) !important;
+    height: min(25vw, 130px) !important;
+    max-width: 130px !important;
+    max-height: 130px !important;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .cardBack .url {
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+  }
+
+  .cardBack .url :global(canvas) {
+    width: min(20vw, 150px) !important;
+    height: min(20vw, 150px) !important;
+    max-width: 150px !important;
+    max-height: 150px !important;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .cardBack .url {
+    font-size: larger;
+    letter-spacing: 2px;
+  }
+
+  .cardBack .url :global(canvas) {
+    width: min(15vw, 200px) !important;
+    height: min(15vw, 200px) !important;
+    max-width: 200px !important;
+    max-height: 200px !important;
+  }
 }
 
 .url:hover,
@@ -202,7 +600,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  gap: 2rem;
 }
 
 .tapFont,
@@ -215,6 +613,39 @@
   transition:
     opacity 0.8s ease,
     transform 0.8s ease;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .container {
+    gap: 3rem;
+  }
+
+  .tapFont,
+  .scanFont {
+    font-size: 0.9rem;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .container {
+    gap: 4rem;
+  }
+
+  .tapFont,
+  .scanFont {
+    font-size: 1rem;
+  }
+}
+
+/* Large desktop styles */
+@media (min-width: 1440px) {
+  .container {
+    gap: 5rem;
+  }
 }
 
 .wrapper:hover + .tapFont {
