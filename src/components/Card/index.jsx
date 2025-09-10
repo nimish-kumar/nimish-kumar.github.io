@@ -239,7 +239,7 @@ export default function Card({ skew = true }) {
                 Pune, India
               </span>
             </a>
-            <h3 className={styles.designation}>FullStack developer</h3>
+            <h3 className={styles.designation}>Fullstack developer</h3>
             <span className={styles.skills}>
               #react #typescript #node #python #django #graphql #aws
             </span>
