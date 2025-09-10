@@ -10,25 +10,25 @@ const socials = [
   {
     name: "Email",
     url: "mailto:nimishk246@gmail.com",
-    icon: <BiLogoGmail size="2rem" color="white" />,
+    icon: <BiLogoGmail color="white" />,
     tooltipText: "nimishk246@gmail.com",
   },
   {
     name: "Github",
     url: "https://github.com/nimish-kumar",
-    icon: <BiLogoGithub size="2rem" color="white" />,
+    icon: <BiLogoGithub color="white" />,
     tooltipText: "github.com/nimish-kumar",
   },
   {
     name: "LinkedIn",
     url: "https://www.linkedin.com/in/nimishk642",
-    icon: <BiLogoLinkedin size="2rem" color="white" />,
+    icon: <BiLogoLinkedin color="white" />,
     tooltipText: "linkedin.com/in/nimishk642",
   },
   {
     name: "X",
     url: "https://twitter.com/nimish7",
-    icon: <BsTwitterX size="2rem" color="white" />,
+    icon: <BsTwitterX color="white" />,
     tooltipText: "twitter.com/nimish7",
   },
 ];
@@ -42,6 +42,15 @@ export default function Card({ skew = true }) {
 
   // Auto-flip back to front after 5 seconds when showing the back and not hovered
   useEffect(() => {
+    // Check if device is mobile/touch device
+    const isMobile =
+      !window.matchMedia("(hover: hover)").matches ||
+      !window.matchMedia("(pointer: fine)").matches ||
+      window.matchMedia("(max-width: 1324px)").matches;
+
+    // Disable auto-flip on mobile devices
+    if (isMobile) return;
+
     if (isFlipped && !isHovered) {
       // Clear any existing timeout
       if (autoFlipTimeoutRef.current) {
@@ -52,11 +61,17 @@ export default function Card({ skew = true }) {
       autoFlipTimeoutRef.current = setTimeout(() => {
         const element = cardRef.current;
         if (element) {
-          // Restore original tilted position after auto-flip
-          setTimeout(() => {
-            element.style.setProperty("--rotateX", "20deg");
-            element.style.setProperty("--rotateY", "-20deg");
-          }, 300);
+          // Only restore tilted position on desktop
+          const supportsHover = window.matchMedia("(hover: hover)").matches;
+          const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+          const isDesktop = window.matchMedia("(min-width: 1325px)").matches;
+
+          if (supportsHover && hasFinePointer && isDesktop) {
+            setTimeout(() => {
+              element.style.setProperty("--rotateX", "20deg");
+              element.style.setProperty("--rotateY", "-20deg");
+            }, 300);
+          }
         }
         setIsFlipped(false);
       }, 1000);
@@ -87,8 +102,16 @@ export default function Card({ skew = true }) {
   }, [isFlipped]);
 
   const rotateCard = (event) => {
-    // Prevent 3D rotation effect when card is flipped
+    // Prevent 3D rotation effect when card is flipped or on mobile/touch devices
     if (isFlipped) return;
+
+    // Check if device supports hover (desktop) and has fine pointer (mouse)
+    const supportsHover = window.matchMedia("(hover: hover)").matches;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    const isDesktop = window.matchMedia("(min-width: 1325px)").matches;
+
+    // Only apply 3D rotation on desktop with mouse
+    if (!supportsHover || !hasFinePointer || !isDesktop) return;
 
     // Get mouse position
     const x = event?.clientX;
@@ -113,8 +136,16 @@ export default function Card({ skew = true }) {
   };
 
   const resetRotate = () => {
-    // Prevent 3D rotation effect when card is flipped
+    // Prevent 3D rotation effect when card is flipped or on mobile/touch devices
     if (isFlipped) return;
+
+    // Check if device supports hover (desktop) and has fine pointer (mouse)
+    const supportsHover = window.matchMedia("(hover: hover)").matches;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    const isDesktop = window.matchMedia("(min-width: 1325px)").matches;
+
+    // Only apply 3D rotation reset on desktop with mouse
+    if (!supportsHover || !hasFinePointer || !isDesktop) return;
 
     const element = cardRef.current;
     // Set faster transition for 3D rotation effect
@@ -177,11 +208,17 @@ export default function Card({ skew = true }) {
         element.style.setProperty("--rotateDirection", "-1");
       }
     } else {
-      // Flipping back to front - restore original tilted position
-      setTimeout(() => {
-        element.style.setProperty("--rotateX", "20deg");
-        element.style.setProperty("--rotateY", "-20deg");
-      }, 300); // Wait for flip animation to be halfway through
+      // Flipping back to front - restore original tilted position only on desktop
+      const supportsHover = window.matchMedia("(hover: hover)").matches;
+      const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+      const isDesktop = window.matchMedia("(min-width: 1325px)").matches;
+
+      if (supportsHover && hasFinePointer && isDesktop) {
+        setTimeout(() => {
+          element.style.setProperty("--rotateX", "20deg");
+          element.style.setProperty("--rotateY", "-20deg");
+        }, 300); // Wait for flip animation to be halfway through
+      }
     }
 
     setIsFlipped(!isFlipped);
@@ -225,19 +262,8 @@ export default function Card({ skew = true }) {
               className={styles.location}
               onClick={(e) => e.stopPropagation()}
             >
-              <FaLocationDot color="white" size={"2rem"} />
-              <span
-                style={{
-                  fontSize: "1.5rem",
-                  marginLeft: "1rem",
-                  textShadow: "0px 0px 5px #000",
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  color: "white",
-                }}
-              >
-                Pune, India
-              </span>
+              <FaLocationDot color="white" />
+              <span>Pune, India</span>
             </a>
             <h3 className={styles.designation}>Fullstack developer</h3>
             <span className={styles.skills}>
@@ -273,7 +299,7 @@ export default function Card({ skew = true }) {
               onClick={(e) => e.stopPropagation()}
               className={styles.url}
             >
-              <QRCode value={socials[2].url} size={200} color="white" />
+              <QRCode value={socials[2].url} color="white" />
             </a>
           </div>
           <div className={styles.bgImage} />

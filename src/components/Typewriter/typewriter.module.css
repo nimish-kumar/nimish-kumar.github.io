@@ -1,6 +1,6 @@
 .blinkingCursor {
   height: 100%;
-  border-left: 2rem solid white;
+  border-left: 1rem solid white;
   animation: blinking 0.5s infinite;
   opacity: 1;
 }
@@ -12,5 +12,12 @@
 
   to {
     opacity: 0;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .blinkingCursor {
+    border-left: 2.5rem solid white;
   }
 }

@@ -1,9 +1,25 @@
 .downloadBtn {
   color: white;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
 }
 
 .navbar {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+/* Tablet and desktop styles */
+@media (min-width: 768px) {
+  .navbar {
+    justify-content: end;
+    padding: 1rem;
+  }
+
+  .downloadBtn {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
 }
